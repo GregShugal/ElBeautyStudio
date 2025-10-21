@@ -4,17 +4,20 @@ import services from '../../content/services.json';
 
 // Generate static pages for each service slug at build time
 export function getStaticPaths() {
-  return services.map((s) => ({ params: { slug: s.slug } }));
+  return services.map((service) => ({ params: { slug: service.slug } }));
 }
 
 const { slug } = Astro.params;
-const svc = services.find((s) => s.slug === slug);
+const svc = services.find((service) => service.slug === slug);
 if (!svc) {
   throw new Error(`Service not found: ${slug}`);
 }
 ---
 
-<BaseLayout title={`${svc.title} | EL Beauty Studio`} description={`Learn about ${svc.title} at EL Beauty Studio in East Hanover, NJ.`}>
+<BaseLayout
+  title={`${svc.title} | EL Beauty Studio`}
+  description={`Learn about ${svc.title} at EL Beauty Studio in East Hanover, NJ.`}
+>
   <section class="py-12">
     <div class="max-w-6xl mx-auto px-6 grid md:grid-cols-3 gap-8">
       <div class="md:col-span-2">
