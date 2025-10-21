@@ -2,13 +2,19 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import services from '../../content/services.json';
 
+// Generate static pages for each service slug at build time
+export function getStaticPaths() {
+  return services.map((s) => ({ params: { slug: s.slug } }));
+}
+
 const { slug } = Astro.params;
-const svc = services.find(s => s.slug === slug);
+const svc = services.find((s) => s.slug === slug);
 if (!svc) {
-  throw new Error('Service not found');
+  throw new Error(`Service not found: ${slug}`);
 }
 ---
-<BaseLayout title={`${svc.title} | EL Beauty Studio`}>
+
+<BaseLayout title={`${svc.title} | EL Beauty Studio`} description={`Learn about ${svc.title} at EL Beauty Studio in East Hanover, NJ.`}>
   <section class="py-12">
     <div class="max-w-6xl mx-auto px-6 grid md:grid-cols-3 gap-8">
       <div class="md:col-span-2">
@@ -19,9 +25,9 @@ if (!svc) {
           <p>A bespoke treatment designed around your current skin needs, with gentle, effective techniques.</p>
           <h3>Is it for me?</h3>
           <p>Great for {svc.tags.join(', ').toLowerCase()} concerns. We adjust intensity based on sensitivity.</p>
-          <h3>Pre/Post‑care</h3>
+          <h3>Pre/Post-care</h3>
           <ul>
-            <li>Arrive makeup‑free if possible.</li>
+            <li>Arrive makeup-free if possible.</li>
             <li>Avoid actives/retinoids 24–48h before and after.</li>
             <li>Hydrate well and use SPF daily.</li>
           </ul>
