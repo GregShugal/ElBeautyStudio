@@ -1,0 +1,26 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+<BaseLayout title="Contact | EL Beauty Studio">
+  <section class="py-12">
+    <div class="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-8">
+      <div>
+        <h1 class="font-display text-4xl">Get in touch</h1>
+        <p class="mt-4 text-[var(--muted)]">Questions about services or booking? We’re here to help.</p>
+        <ul class="mt-6 space-y-2">
+          <li>Email: <a href="mailto:hello@elbsnj.com">hello@elbsnj.com</a></li>
+          <li>Instagram: <a href="https://www.instagram.com/elbeautystudio_nj/" target="_blank" rel="noopener">@elbeautystudio_nj</a></li>
+          <li>Address: East Hanover, NJ (Parking available)</li>
+        </ul>
+        <a class="btn btn-primary mt-6 no-underline" href="/book">Book Now</a>
+      </div>
+      <div class="card">
+        <h3 class="font-display text-2xl mb-3">Find us</h3>
+        <div class="aspect-video rounded-xl overflow-hidden bg-porcelain">
+          <iframe class="w-full h-full" loading="lazy"
+            src="https://www.google.com/maps?q=El%20Beauty%20Studio%20East%20Hanover%20NJ&output=embed"></iframe>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

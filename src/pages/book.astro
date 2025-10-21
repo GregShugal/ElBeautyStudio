@@ -1,0 +1,15 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+const bookingUrl = 'https://elbeautystudio.square.site/';
+---
+<BaseLayout title="Book | EL Beauty Studio">
+  <section class="py-12">
+    <div class="max-w-6xl mx-auto px-6">
+      <h1 class="font-display text-4xl mb-4">Book your visit</h1>
+      <p class="text-[var(--muted)] mb-6">Secure your time below. If you don't see a suitable slot, please contact us—cancellations happen.</p>
+      <div class="card">
+        <iframe src={bookingUrl} class="w-full h-[80vh] rounded-xl border" loading="lazy"></iframe>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

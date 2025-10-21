@@ -1,0 +1,16 @@
+---
+const { title, subtitle, ctaHref = '/book', ctaText = 'Book a Glow', secondaryHref = '/results', secondaryText = 'See Results' } = Astro.props;
+---
+<section class="relative overflow-hidden">
+  <div class="absolute inset-0 pointer-events-none" style="background: radial-gradient(60% 50% at 50% 0%, #F4DDE1 0%, #E6D8F5 60%, transparent 100%); opacity: .45;"></div>
+  <div class="relative max-w-6xl mx-auto px-6 py-20 md:py-28">
+    <h1 class="font-display text-4xl md:text-6xl leading-tight">
+      {title}
+    </h1>
+    <p class="mt-4 max-w-2xl text-lg text-[var(--muted)]">{subtitle}</p>
+    <div class="mt-8 flex gap-3">
+      <a href={ctaHref} class="btn btn-primary no-underline">{ctaText}</a>
+      <a href={secondaryHref} class="btn btn-ghost no-underline">{secondaryText}</a>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,59 @@
+[
+  {
+    "slug": "custom-facial",
+    "title": "Custom Facial",
+    "duration": "60\u201375 min",
+    "priceFrom": "$120",
+    "href": "/book",
+    "tags": [
+      "Hydration",
+      "Clarifying",
+      "Calm"
+    ]
+  },
+  {
+    "slug": "sculpting-face-massage",
+    "title": "Sculpting Face Massage",
+    "duration": "45\u201360 min",
+    "priceFrom": "$110",
+    "href": "/book",
+    "tags": [
+      "Lift",
+      "De-puff",
+      "Circulation"
+    ]
+  },
+  {
+    "slug": "lash-lift",
+    "title": "Lash Lift",
+    "duration": "45\u201360 min",
+    "priceFrom": "$90",
+    "href": "/book",
+    "tags": [
+      "Low-maintenance",
+      "Open-Eye"
+    ]
+  },
+  {
+    "slug": "lash-lift-tint",
+    "title": "Lash Lift & Tint",
+    "duration": "60 min",
+    "priceFrom": "$110",
+    "href": "/book",
+    "tags": [
+      "Definition",
+      "Time-saver"
+    ]
+  },
+  {
+    "slug": "dermaplaning-add-on",
+    "title": "Dermaplaning (Add\u2011On)",
+    "duration": "+15 min",
+    "priceFrom": "+ $25",
+    "href": "/book",
+    "tags": [
+      "Smooth",
+      "Glow"
+    ]
+  }
+]

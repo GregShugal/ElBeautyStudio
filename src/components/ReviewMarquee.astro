@@ -1,0 +1,17 @@
+---
+const { reviews = [] } = Astro.props;
+/* reviews: [{author, text}] */
+---
+<section class="py-12 bg-white">
+  <div class="max-w-6xl mx-auto px-6">
+    <h2 class="font-display text-3xl mb-6">What clients say</h2>
+    <div class="grid md:grid-cols-3 gap-4">
+      {reviews.map(r => (
+        <blockquote class="card" aria-label="review">
+          <p>“{r.text}”</p>
+          <cite class="block mt-3 text-sm text-[var(--muted)]">— {r.author}</cite>
+        </blockquote>
+      ))}
+    </div>
+  </div>
+</section>

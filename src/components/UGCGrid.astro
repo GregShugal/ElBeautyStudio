@@ -1,0 +1,16 @@
+---
+const { items = [] } = Astro.props;
+/* items: [{url:'https://www.instagram.com/p/...'}] */
+---
+<section class="py-12">
+  <div class="max-w-6xl mx-auto px-6">
+    <h2 class="font-display text-3xl mb-6">From our Instagram</h2>
+    <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+      {items.map((it) => (
+        <div class="aspect-square overflow-hidden rounded-2xl bg-porcelain">
+          <blockquote class="instagram-media w-full h-full" data-instgrm-permalink={it.url} data-instgrm-version="14"></blockquote>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

@@ -1,0 +1,16 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html { scroll-behavior: smooth; }
+  body { @apply bg-[var(--bg)] text-[var(--text)] font-body; }
+  a { @apply underline-offset-4; }
+}
+@layer components {
+  .btn { @apply inline-flex items-center justify-center rounded-full px-5 py-3 text-sm font-medium transition shadow-none; }
+  .btn-primary { @apply bg-blush hover:bg-pink-200 no-underline; }
+  .btn-ghost { @apply border border-gold text-[var(--text)] bg-white/50 backdrop-blur; }
+  .card { @apply rounded-2xl bg-white shadow-soft p-6; }
+  .chip { @apply rounded-full border border-gold px-3 py-1 text-xs; }
+}

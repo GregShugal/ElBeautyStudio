@@ -1,0 +1,43 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import services from '../../content/services.json';
+
+const { slug } = Astro.params;
+const svc = services.find(s => s.slug === slug);
+if (!svc) {
+  throw new Error('Service not found');
+}
+---
+<BaseLayout title={`${svc.title} | EL Beauty Studio`}>
+  <section class="py-12">
+    <div class="max-w-6xl mx-auto px-6 grid md:grid-cols-3 gap-8">
+      <div class="md:col-span-2">
+        <h1 class="font-display text-4xl">{svc.title}</h1>
+        <p class="mt-2 text-[var(--muted)]">{svc.duration} · from {svc.priceFrom}</p>
+        <div class="prose mt-6 max-w-none">
+          <h3>What to expect</h3>
+          <p>A bespoke treatment designed around your current skin needs, with gentle, effective techniques.</p>
+          <h3>Is it for me?</h3>
+          <p>Great for {svc.tags.join(', ').toLowerCase()} concerns. We adjust intensity based on sensitivity.</p>
+          <h3>Pre/Post‑care</h3>
+          <ul>
+            <li>Arrive makeup‑free if possible.</li>
+            <li>Avoid actives/retinoids 24–48h before and after.</li>
+            <li>Hydrate well and use SPF daily.</li>
+          </ul>
+        </div>
+      </div>
+      <aside class="md:col-span-1 space-y-4">
+        <a href={svc.href} class="btn btn-primary w-full no-underline">Book {svc.title}</a>
+        <div class="card">
+          <h4 class="font-display text-xl mb-2">Good to know</h4>
+          <ul class="text-sm list-disc ml-4 space-y-1">
+            <li>By appointment only</li>
+            <li>Parking available</li>
+            <li>Please arrive 5–10 minutes early</li>
+          </ul>
+        </div>
+      </aside>
+    </div>
+  </section>
+</BaseLayout>

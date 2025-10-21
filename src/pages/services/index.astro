@@ -1,0 +1,16 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ServiceCard from '../../components/ServiceCard.astro';
+import services from '../../content/services.json';
+---
+<BaseLayout title="Services | EL Beauty Studio">
+  <section class="py-12">
+    <div class="max-w-6xl mx-auto px-6">
+      <h1 class="font-display text-4xl mb-6">Services</h1>
+      <p class="text-[var(--muted)] max-w-2xl">Personalized facials, sculpting massage, and lash lifts. Each visit is tailored to your skin today, with clear pre/post‑care and realistic expectations.</p>
+      <div class="grid md:grid-cols-3 gap-6 mt-8">
+        {services.map(s => <ServiceCard {...s} />)}
+      </div>
+    </div>
+  </section>
+</BaseLayout>
