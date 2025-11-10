@@ -1,0 +1,157 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const stats = [
+  { label: 'Manual lift time', value: '25+ min hands-on sculpting' },
+  { label: 'Lymph drainage', value: 'Neck, jaw, sinus focus' },
+  { label: 'Ideal cadence', value: 'Every 3–4 weeks' },
+];
+
+const benefits = [
+  {
+    title: 'Defined features without downtime',
+    copy:
+      'We combine buccal, intra-oral, and fascia release work so puffiness melts away and cheekbones stand out naturally.',
+  },
+  {
+    title: 'Nervous-system friendly',
+    copy:
+      'Slow, rhythmic strokes calm your parasympathetic system. Expect deeper breathing, jaw relief, and better sleep the night after.',
+  },
+  {
+    title: 'Lymph movement for clarity',
+    copy:
+      'Guiding fluid toward the clavicle prevents congestion from settling along the jawline and speeds recovery after other treatments.',
+  },
+];
+
+const process = [
+  { step: '1. Warm oil cleanse & neck opening', detail: 'We prep tissue with steamed towels and open pathways along the clavicle so drainage has somewhere to travel.' },
+  { step: '2. Sculpting massage', detail: 'Firm-yet-gentle kneading lifts the cheeks, releases the masseter, and trains facial muscles to sit higher.' },
+  { step: '3. Buccal / intra-oral work', detail: 'Gloved techniques release tension from the inside of the mouth—crucial for TMJ clients needing deeper relief.' },
+  { step: '4. Lymphatic finish', detail: 'Feather-light strokes send fluid toward the lymph nodes. Expect a fresh, bright finish rather than post-facial puff.' },
+];
+
+const faqs = [
+  {
+    question: 'How often should I book sculpting face massage?',
+    answer:
+      'Every 3–4 weeks keeps fascia pliable and trains the muscles to hold lift. Book weekly for a month if you have an event or want faster jawline refinement.',
+  },
+  {
+    question: 'Is buccal work uncomfortable?',
+    answer:
+      'It should never hurt. We work slowly with breathable gloves, communicate the entire time, and can skip intra-oral techniques if you prefer external work only.',
+  },
+  {
+    question: 'Can I pair this with other facials?',
+    answer:
+      'Yes. Sculpting massage is included inside the Custom Facial or can be scheduled as a focused 45-minute session between corrective treatments.',
+  },
+  {
+    question: 'Any prep needed?',
+    answer:
+      'Pause strong actives for 24 hours, stay hydrated, and arrive makeup-free. If you are feeling under the weather, reschedule so we are not moving lymph while you are sick.',
+  },
+];
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map((faq) => ({
+    '@type': 'Question',
+    name: faq.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: faq.answer,
+    },
+  })),
+};
+---
+<BaseLayout
+  title="Sculpting Face Massage in East Hanover, NJ | EL Beauty Studio"
+  description="Manual lymphatic drainage, buccal techniques, and fascia release for visible lift without aggressive devices."
+  url="https://elbsnj.com/sculpting-face-massage/"
+>
+  <section class="py-16 bg-[var(--bg-soft)]">
+    <div class="max-w-5xl mx-auto px-6 text-center space-y-6">
+      <p class="text-sm uppercase tracking-[0.3em] text-[var(--muted)]">Signature protocol</p>
+      <h1 class="font-display text-4xl md:text-5xl">Sculpting Face Massage & Lymphatic Drainage</h1>
+      <p class="text-lg text-[var(--muted)]">
+        A lifted, de-puffed face without needles or devices. Perfect for jaw tension, travel swelling, and anyone wanting a sculpted glow before events.
+      </p>
+      <div class="flex flex-col md:flex-row gap-4 justify-center">
+        <a href="/book" class="btn btn-primary no-underline">Book sculpting session</a>
+        <a href="/results" class="btn btn-ghost no-underline">See before / afters</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-12">
+    <div class="max-w-5xl mx-auto px-6 grid md:grid-cols-3 gap-4">
+      {stats.map((stat) => (
+        <div class="card text-center">
+          <p class="text-sm uppercase tracking-[0.3em] text-[var(--muted)]">{stat.label}</p>
+          <p class="font-display text-xl mt-2">{stat.value}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="py-12 border-t border-b">
+    <div class="max-w-6xl mx-auto px-6 grid md:grid-cols-3 gap-6">
+      {benefits.map((benefit) => (
+        <article class="card space-y-3">
+          <h3 class="font-display text-2xl">{benefit.title}</h3>
+          <p class="text-[var(--muted)]">{benefit.copy}</p>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="py-16">
+    <div class="max-w-4xl mx-auto px-6 space-y-8">
+      <h2 class="font-display text-3xl text-center">What the session feels like</h2>
+      <div class="space-y-6">
+        {process.map((item) => (
+          <div class="card">
+            <p class="font-display text-xl">{item.step}</p>
+            <p class="text-[var(--muted)] mt-2">{item.detail}</p>
+          </div>
+        ))}
+      </div>
+      <div class="text-center">
+        <a href="/book" class="btn btn-primary no-underline">Reserve a sculpting appointment</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-16 bg-[var(--bg-soft)]">
+    <div class="max-w-4xl mx-auto px-6">
+      <h2 class="font-display text-3xl text-center mb-8">Sculpting massage FAQ</h2>
+      <div class="space-y-6">
+        {faqs.map((faq) => (
+          <details class="card" open>
+            <summary class="font-display text-xl cursor-pointer">{faq.question}</summary>
+            <p class="text-[var(--muted)] mt-3">{faq.answer}</p>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="py-16">
+    <div class="max-w-5xl mx-auto px-6 text-center space-y-4">
+      <h2 class="font-display text-3xl">Ready for a lifted glow?</h2>
+      <p class="text-[var(--muted)]">
+        Book online or send a quick note through our contact form if you want help pairing sculpting massage with another service.
+      </p>
+      <div class="flex flex-col md:flex-row gap-3 justify-center">
+        <a href="/book" class="btn btn-primary no-underline">Book now</a>
+        <a href="/contact" class="btn btn-ghost no-underline">Ask a question</a>
+      </div>
+    </div>
+  </section>
+
+  <script type="application/ld+json" is:inline>{JSON.stringify(faqSchema)}</script>
+</BaseLayout>

@@ -1,0 +1,72 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+  return posts.map((post) => ({
+    params: { slug: post.slug },
+    props: { entry: post },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await entry.render();
+const publishDate = new Date(entry.data.publishDate).toLocaleDateString('en-US', {
+  month: 'long',
+  day: 'numeric',
+  year: 'numeric',
+});
+
+const canonicalUrl = `https://elbsnj.com/blog/${entry.slug}/`;
+---
+<BaseLayout
+  title={`${entry.data.title} | EL Beauty Studio Journal`}
+  description={entry.data.description}
+  url={canonicalUrl}
+  image={entry.data.heroImage}
+>
+  <article class="max-w-3xl mx-auto px-6 py-16 space-y-10">
+    <div class="space-y-3">
+      <p class="text-sm uppercase tracking-[0.3em] text-[var(--muted)]">Studio Journal</p>
+      <h1 class="font-display text-4xl">{entry.data.title}</h1>
+      <div class="flex flex-wrap items-center gap-4 text-sm text-[var(--muted)]">
+        <span>{publishDate}</span>
+        {entry.data.readingTime && (
+          <span aria-label="Estimated reading time">{entry.data.readingTime}</span>
+        )}
+      </div>
+      <p class="text-lg text-[var(--muted)]">{entry.data.description}</p>
+      <div class="flex flex-wrap gap-2">
+        {entry.data.tags.map((tag) => (
+          <span class="chip capitalize">{tag}</span>
+        ))}
+      </div>
+    </div>
+
+    {entry.data.heroImage && (
+      <img
+        src={entry.data.heroImage}
+        alt={`${entry.data.title} hero image`}
+        class="rounded-3xl w-full object-cover"
+        loading="lazy"
+        decoding="async"
+        width="1600"
+        height="900"
+      />
+    )}
+
+    <div class="prose prose-slate max-w-none text-lg leading-relaxed space-y-6">
+      <Content />
+    </div>
+
+    <div class="border-t pt-8 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+      <a class="btn btn-ghost w-full md:w-auto text-center no-underline" href="/blog">
+        Back to articles
+      </a>
+      <a class="btn btn-primary w-full md:w-auto text-center no-underline" href="/book">
+        Book a sculpting facial
+      </a>
+    </div>
+  </article>
+</BaseLayout>

@@ -1,0 +1,44 @@
+<svg width="1600" height="900" viewBox="0 0 1600 900" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="prepGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#FFF7E8" />
+      <stop offset="50%" stop-color="#F8E0C8" />
+      <stop offset="100%" stop-color="#EAC7B0" />
+    </linearGradient>
+    <radialGradient id="prepHighlight" cx="70%" cy="30%" r="50%">
+      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.8" />
+      <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0" />
+    </radialGradient>
+  </defs>
+  <rect width="1600" height="900" fill="url(#prepGradient)" />
+  <circle cx="1150" cy="260" r="260" fill="url(#prepHighlight)" />
+  <path
+    d="M0 240 C260 160 420 260 640 220 C860 180 1000 40 1280 120 C1500 190 1600 140 1600 140 L1600 0 L0 0 Z"
+    fill="#fff"
+    opacity="0.35"
+  />
+  <path
+    d="M0 780 C260 700 520 820 760 760 C1000 700 1200 780 1600 700 L1600 900 L0 900 Z"
+    fill="#F6E7D4"
+    opacity="0.55"
+  />
+  <text
+    x="140"
+    y="360"
+    fill="#5C4638"
+    font-family="Cormorant Garamond, 'Times New Roman', serif"
+    font-size="78"
+    font-weight="600"
+  >
+    Custom Facial Prep
+  </text>
+  <text
+    x="140"
+    y="430"
+    fill="#7C5D4B"
+    font-family="Inter, 'Helvetica Neue', sans-serif"
+    font-size="32"
+  >
+    Hydration, barrier calm, and pre-visit rituals.
+  </text>
+</svg>

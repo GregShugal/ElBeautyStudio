@@ -1,11 +1,65 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import type { CollectionEntry } from 'astro:content';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('blog'))
+  .sort(
+    (a, b) =>
+      new Date(b.data.publishDate).getTime() - new Date(a.data.publishDate).getTime(),
+  );
+
+const formatDate = (post: CollectionEntry<'blog'>) =>
+  new Date(post.data.publishDate).toLocaleDateString('en-US', {
+    month: 'short',
+    day: 'numeric',
+    year: 'numeric',
+  });
 ---
-<BaseLayout title="Blog | EL Beauty Studio">
-  <section class="py-12">
-    <div class="max-w-6xl mx-auto px-6">
-      <h1 class="font-display text-4xl mb-6">Studio Journal</h1>
-      <p class="text-[var(--muted)]">Skincare education, routines, and studio updates. Posts coming soon.</p>
+<BaseLayout
+  title="Studio Journal | EL Beauty Studio"
+  description="Guides, rituals, and treatment education from EL Beauty Studio in East Hanover, NJ."
+>
+  <section class="py-16 border-b bg-[var(--bg-soft)]">
+    <div class="max-w-5xl mx-auto px-6 text-center space-y-4">
+      <p class="text-sm uppercase tracking-[0.3em] text-[var(--muted)]">Studio Journal</p>
+      <h1 class="font-display text-4xl md:text-5xl">Notes from the treatment room</h1>
+      <p class="text-lg text-[var(--muted)]">
+        Skincare education, fascia-friendly routines, and seasonal updates so you know exactly
+        how to care for your skin between visits.
+      </p>
+    </div>
+  </section>
+
+  <section class="py-16">
+    <div class="max-w-6xl mx-auto px-6 grid gap-10 md:grid-cols-2">
+      {posts.map((post) => (
+        <a
+          href={`/blog/${post.slug}/`}
+          class="card flex flex-col gap-4 no-underline hover:-translate-y-1 transition"
+        >
+          {post.data.heroImage && (
+            <img
+              src={post.data.heroImage}
+              alt={post.data.title}
+              loading="lazy"
+              decoding="async"
+              width="1200"
+              height="800"
+              class="rounded-2xl h-56 w-full object-cover"
+            />
+          )}
+          <div class="text-sm text-[var(--muted)]">{formatDate(post)}</div>
+          <h2 class="font-display text-2xl text-[var(--text)]">{post.data.title}</h2>
+          <p class="text-[var(--muted)]">{post.data.description}</p>
+          <div class="flex flex-wrap gap-2">
+            {post.data.tags.slice(0, 3).map((tag) => (
+              <span class="chip capitalize" aria-label={`Tag ${tag}`}>{tag}</span>
+            ))}
+          </div>
+          <span class="text-sm font-medium text-[var(--text)]">{post.data.readingTime ?? 'Read article'} ></span>
+        </a>
+      ))}
     </div>
   </section>
 </BaseLayout>

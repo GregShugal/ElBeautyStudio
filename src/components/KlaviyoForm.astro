@@ -1,51 +1,94 @@
 ---
-/**
- * Minimal Klaviyo signup form.
- * Replace PUBLIC_API_KEY and LIST_ID below.
- */
 const { heading = 'Join the Glow List', sub = 'Skincare tips & openings.' } = Astro.props;
+const companyId = import.meta.env.PUBLIC_KLAVIYO_COMPANY_ID ?? '';
+const listId = import.meta.env.PUBLIC_KLAVIYO_LIST_ID ?? '';
+const isConfigured = Boolean(companyId && listId);
 ---
 <section class="card">
   <h3 class="font-display text-2xl">{heading}</h3>
   <p class="text-sm text-[var(--muted)] mt-1">{sub}</p>
-  <form id="klaviyo-subscribe" class="mt-4 space-y-3" onsubmit="return false">
-    <input type="email" name="email" required placeholder="Email address" class="w-full rounded-full border px-4 py-3" />
-    <button class="btn btn-primary w-full" type="submit">Join</button>
-    <p id="klaviyo-msg" class="text-sm text-[var(--muted)]"></p>
+  {!isConfigured && (
+    <p class="text-sm text-red-500 bg-red-50 border border-red-100 rounded-2xl px-4 py-3 mt-4">
+      Set <code>PUBLIC_KLAVIYO_COMPANY_ID</code> and <code>PUBLIC_KLAVIYO_LIST_ID</code> env vars to enable opt-ins.
+    </p>
+  )}
+  <form
+    data-klaviyo-form
+    data-company={companyId}
+    data-list={listId}
+    class="mt-4 space-y-3"
+    onsubmit="return false"
+  >
+    <input
+      type="email"
+      name="email"
+      required
+      placeholder="Email address"
+      class="w-full rounded-full border px-4 py-3"
+      autocomplete="email"
+    />
+    <button class="btn btn-primary w-full" type="submit" disabled={!isConfigured}>
+      {isConfigured ? 'Join' : 'Unavailable'}
+    </button>
+    <p data-klaviyo-msg class="text-sm text-[var(--muted)]"></p>
   </form>
 </section>
 
 <script>
-const form = document.getElementById('klaviyo-subscribe');
-const msg = document.getElementById('klaviyo-msg');
-if (form) {
-  form.addEventListener('submit', async () => {
-    const email = form.querySelector('input[name="email"]').value;
-    msg.textContent = 'Submitting...';
-    try {
-      const resp = await fetch('https://a.klaviyo.com/client/subscriptions/?company_id=PUBLIC_API_KEY', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-        body: JSON.stringify({
-          data: {
-            type: 'subscription',
-            attributes: {
-              list_id: 'LIST_ID',
-              custom_source: 'ELBSNJ Website',
-              email
-            }
-          }
-        })
-      });
-      if (resp.ok) {
-        msg.textContent = 'Thanks! Please check your inbox.';
-        form.reset();
-      } else {
-        msg.textContent = 'Something went wrong. Try again.';
+const form = document.querySelector('[data-klaviyo-form]');
+const msg = document.querySelector('[data-klaviyo-msg]');
+
+if (form && msg) {
+  const companyId = form.dataset.company;
+  const listId = form.dataset.list;
+
+  if (!companyId || !listId) {
+    msg.textContent = 'Join list is temporarily unavailable.';
+  } else {
+    form.addEventListener('submit', async () => {
+      const emailInput = form.querySelector('input[name="email"]');
+      if (!emailInput) return;
+      const email = emailInput.value.trim();
+      if (!email) return;
+
+      msg.textContent = 'Submitting...';
+      form.classList.add('opacity-70');
+
+      try {
+        const resp = await fetch(`https://a.klaviyo.com/client/subscriptions/?company_id=${companyId}`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Accept: 'application/json',
+          },
+          body: JSON.stringify({
+            data: {
+              type: 'subscription',
+              attributes: {
+                list_id: listId,
+                email,
+                custom_source: 'ELBSNJ Website',
+                properties: {
+                  consent_method: 'EL Beauty Studio site',
+                },
+              },
+            },
+          }),
+        });
+
+        if (resp.ok) {
+          msg.textContent = 'Thanks! Check your inbox to confirm.';
+          emailInput.value = '';
+        } else {
+          const errorData = await resp.json().catch(() => null);
+          msg.textContent = errorData?.errors?.[0]?.detail || 'Something went wrong. Try again.';
+        }
+      } catch (error) {
+        msg.textContent = 'Network error. Try again.';
+      } finally {
+        form.classList.remove('opacity-70');
       }
-    } catch (e) {
-      msg.textContent = 'Network error. Try again.';
-    }
-  });
+    });
+  }
 }
 </script>

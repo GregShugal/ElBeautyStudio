@@ -2,7 +2,7 @@
 const { items = [] } = Astro.props;
 /* items: [{url:'https://www.instagram.com/p/...'}] */
 ---
-<section class="py-12">
+<section class="py-12" data-insta-grid>
   <div class="max-w-6xl mx-auto px-6">
     <h2 class="font-display text-3xl mb-6">From our Instagram</h2>
     <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
@@ -14,3 +14,40 @@ const { items = [] } = Astro.props;
     </div>
   </div>
 </section>
+
+<script is:inline>
+const scriptEl = document.currentScript;
+const gridSection = scriptEl?.previousElementSibling;
+
+const loadInstagramEmbeds = () => {
+  if (window.__elbsInstagramLoaded) {
+    window.instgrm?.Embeds?.process();
+    return;
+  }
+  window.__elbsInstagramLoaded = true;
+  const embedScript = document.createElement('script');
+  embedScript.src = 'https://www.instagram.com/embed.js';
+  embedScript.async = true;
+  embedScript.onload = () => window.instgrm?.Embeds?.process();
+  document.body.appendChild(embedScript);
+};
+
+if (gridSection) {
+  if ('IntersectionObserver' in window) {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            loadInstagramEmbeds();
+            observer.disconnect();
+          }
+        });
+      },
+      { rootMargin: '200px' },
+    );
+    observer.observe(gridSection);
+  } else {
+    loadInstagramEmbeds();
+  }
+}
+</script>

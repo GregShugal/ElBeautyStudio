@@ -13,4 +13,13 @@
   .btn-ghost { @apply border border-gold text-[var(--text)] bg-white/50 backdrop-blur; }
   .card { @apply rounded-2xl bg-white shadow-soft p-6; }
   .chip { @apply rounded-full border border-gold px-3 py-1 text-xs; }
+  .prose { @apply text-base leading-relaxed space-y-6; }
+  .prose h2 { @apply font-display text-3xl mt-10 mb-4 text-[var(--text)]; }
+  .prose h3 { @apply text-2xl font-semibold mt-8 mb-3; }
+  .prose p { @apply text-[var(--text)] text-lg leading-relaxed; }
+  .prose ul { @apply list-disc pl-6 space-y-2; }
+  .prose ol { @apply list-decimal pl-6 space-y-2; }
+  .prose li { @apply text-[var(--text)]; }
+  .prose strong { @apply font-semibold; }
+  .prose a { @apply text-gold; }
 }

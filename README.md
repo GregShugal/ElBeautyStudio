@@ -13,6 +13,10 @@ npm run dev
 # 3) Build for production
 npm run build
 npm run preview
+
+# 4) (Optional) Enable Klaviyo email capture
+cp .env.example .env
+# then add PUBLIC_KLAVIYO_COMPANY_ID + PUBLIC_KLAVIYO_LIST_ID
 ```
 
 ## Where to edit
@@ -21,7 +25,7 @@ npm run preview
 - **Services data:** `src/content/services.json` (update `href` to service deep links when ready)
 - **Booking page:** `src/pages/book.astro` (uses master Square link for now)
 - **Instagram grid:** update `igItems` in `src/pages/index.astro` for v1; upgrade to Graph API later
-- **Results images:** replace placeholders in `/public/assets/`
+- **Results imagery:** update `/public/assets/results-before.svg` + `/public/assets/results-after.svg` when you have final photography
 
 ## Deploy (Cloudflare Pages)
 - Create a new Pages project, connect your repo
