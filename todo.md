@@ -58,4 +58,18 @@
 - [x] Add file upload UI component to RequestQuote page
 - [x] Display uploaded files in admin project detail view
 - [x] Test file upload with various file types (images, PDFs, etc.)
+- [x] Save checkpoint and push to GitHub
+
+## Bug Fix: Nested Anchor Tags
+- [x] Locate nested anchor tags on homepage
+- [x] Fix by removing inner anchor tags from Link components
+- [x] Test homepage to verify error is resolved
+- [x] Save checkpoint
+
+## Feature: Email Notifications for New Inquiries
+- [x] Add notifyOwner call to intake submission procedure
+- [x] Include project details in notification (client name, email, project title, message)
+- [x] Include all form fields (material, dimensions, quantity, deadline, budget, special requirements)
+- [x] Show attachment count in notification
+- [ ] Test notification system with form submission
 - [ ] Save checkpoint and push to GitHub

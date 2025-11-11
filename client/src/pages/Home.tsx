@@ -191,9 +191,9 @@ export default function Home() {
             <div>
               <h4 className="font-semibold mb-4">Quick Links</h4>
               <ul className="space-y-2 text-sm">
-                <li><Link href="/portfolio"><a className="text-muted-foreground hover:text-accent transition-colors">Portfolio</a></Link></li>
-                <li><Link href="/process"><a className="text-muted-foreground hover:text-accent transition-colors">Our Process</a></Link></li>
-                <li><Link href="/request-quote"><a className="text-muted-foreground hover:text-accent transition-colors">Request Quote</a></Link></li>
+                <li><Link href="/portfolio" className="text-muted-foreground hover:text-accent transition-colors">Portfolio</Link></li>
+                <li><Link href="/process" className="text-muted-foreground hover:text-accent transition-colors">Our Process</Link></li>
+                <li><Link href="/request-quote" className="text-muted-foreground hover:text-accent transition-colors">Request Quote</Link></li>
               </ul>
             </div>
             <div>

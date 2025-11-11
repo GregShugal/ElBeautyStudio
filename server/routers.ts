@@ -2,6 +2,7 @@ import { COOKIE_NAME } from "@shared/const";
 import { getSessionCookieOptions } from "./_core/cookies";
 import { systemRouter } from "./_core/systemRouter";
 import { publicProcedure, protectedProcedure, router } from "./_core/trpc";
+import { notifyOwner } from "./_core/notification";
 import { z } from "zod";
 import {
   createProject,
@@ -132,6 +133,38 @@ export const appRouter = router({
             });
           }
         }
+
+        // Send notification to owner about new project inquiry
+        const attachmentInfo = input.attachments && input.attachments.length > 0
+          ? `\n\n📎 Attachments: ${input.attachments.length} file(s) uploaded`
+          : "";
+        
+        const projectDetails = [
+          `**Client Information:**`,
+          `Name: ${input.clientName}`,
+          `Email: ${input.clientEmail}`,
+          input.clientPhone ? `Phone: ${input.clientPhone}` : null,
+          ``,
+          `**Project Details:**`,
+          `Title: ${input.projectTitle}`,
+          input.projectType ? `Type: ${input.projectType}` : null,
+          ``,
+          `**Description:**`,
+          input.rawMessage,
+          ``,
+          input.material ? `Material: ${input.material}` : null,
+          input.dimensions ? `Dimensions: ${input.dimensions}` : null,
+          input.quantity ? `Quantity: ${input.quantity}` : null,
+          input.deadline ? `Deadline: ${input.deadline}` : null,
+          input.budget ? `Budget: ${input.budget}` : null,
+          input.specialRequirements ? `\nSpecial Requirements:\n${input.specialRequirements}` : null,
+          attachmentInfo,
+        ].filter(Boolean).join('\n');
+
+        await notifyOwner({
+          title: `🎨 New Project Inquiry: ${input.projectTitle}`,
+          content: projectDetails,
+        });
 
         return { projectId, intakeId, success: true };
       }),
