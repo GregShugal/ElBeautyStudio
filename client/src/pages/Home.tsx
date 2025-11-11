@@ -49,6 +49,9 @@ export default function Home() {
             <Link href="/process">
               <a className="text-sm font-medium hover:text-accent transition-colors">Process</a>
             </Link>
+            <Link href="/about">
+              <a className="text-sm font-medium hover:text-accent transition-colors">About</a>
+            </Link>
             <Link href="/request-quote">
               <Button variant="default" size="sm">Request Quote</Button>
             </Link>
