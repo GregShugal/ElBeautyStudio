@@ -1,6 +1,6 @@
 import { eq } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
-import { InsertUser, users } from "../drizzle/schema";
+import { InsertUser, users, intakeAttachments, InsertIntakeAttachment } from "../drizzle/schema";
 import { ENV } from './_core/env';
 
 let _db: ReturnType<typeof drizzle> | null = null;
@@ -87,6 +87,26 @@ export async function getUserByOpenId(openId: string) {
   const result = await db.select().from(users).where(eq(users.openId, openId)).limit(1);
 
   return result.length > 0 ? result[0] : undefined;
+}
+
+// Intake attachments helpers
+export async function createIntakeAttachment(attachment: InsertIntakeAttachment) {
+  const db = await getDb();
+  if (!db) {
+    console.warn("[Database] Cannot create attachment: database not available");
+    return undefined;
+  }
+  const result = await db.insert(intakeAttachments).values(attachment);
+  return result;
+}
+
+export async function getIntakeAttachments(intakeId: number) {
+  const db = await getDb();
+  if (!db) {
+    console.warn("[Database] Cannot get attachments: database not available");
+    return [];
+  }
+  return await db.select().from(intakeAttachments).where(eq(intakeAttachments.intakeId, intakeId));
 }
 
 import {

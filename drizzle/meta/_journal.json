@@ -15,6 +15,13 @@
       "when": 1762881856538,
       "tag": "0001_illegal_leopardon",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1762883029367,
+      "tag": "0002_serious_moon_knight",
+      "breakpoints": true
     }
   ]
 }

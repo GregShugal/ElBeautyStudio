@@ -27,6 +27,8 @@ import {
   updateFulfillment,
   getAllPortfolioItems,
   getFeaturedPortfolioItems,
+  createIntakeAttachment,
+  getIntakeAttachments,
 } from "./db";
 
 export const appRouter = router({
@@ -83,6 +85,15 @@ export const appRouter = router({
           deadline: z.string().optional(),
           budget: z.string().optional(),
           specialRequirements: z.string().optional(),
+          attachments: z.array(
+            z.object({
+              fileUrl: z.string(),
+              fileKey: z.string(),
+              fileName: z.string(),
+              fileSize: z.number(),
+              mimeType: z.string().optional(),
+            })
+          ).optional(),
         })
       )
       .mutation(async ({ input }) => {
@@ -96,7 +107,7 @@ export const appRouter = router({
         });
 
         // Create intake form
-        await createIntakeForm({
+        const intakeId = await createIntakeForm({
           projectId,
           rawMessage: input.rawMessage,
           projectType: input.projectType,
@@ -108,13 +119,33 @@ export const appRouter = router({
           specialRequirements: input.specialRequirements,
         });
 
-        return { projectId, success: true };
+        // Save file attachments if provided
+        if (input.attachments && input.attachments.length > 0) {
+          for (const attachment of input.attachments) {
+            await createIntakeAttachment({
+              intakeId,
+              fileUrl: attachment.fileUrl,
+              fileKey: attachment.fileKey,
+              fileName: attachment.fileName,
+              fileSize: attachment.fileSize,
+              mimeType: attachment.mimeType,
+            });
+          }
+        }
+
+        return { projectId, intakeId, success: true };
       }),
 
     getByProjectId: protectedProcedure
       .input(z.object({ projectId: z.number() }))
       .query(async ({ input }) => {
         return await getIntakeFormByProjectId(input.projectId);
+      }),
+
+    getAttachments: publicProcedure
+      .input(z.object({ intakeId: z.number() }))
+      .query(async ({ input }) => {
+        return await getIntakeAttachments(input.intakeId);
       }),
   }),
 

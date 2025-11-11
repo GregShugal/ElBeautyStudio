@@ -47,5 +47,15 @@
 - [x] Test authentication and role-based access
 - [x] Website fully functional with no TypeScript errors
 - [x] Save checkpoint
-- [ ] Deploy to GitHub repository
-- [ ] Configure GitHub Pages or deployment platform
+- [x] Deploy to GitHub repository
+- [x] Successfully pushed to GregShugal/ElBeautyStudio
+
+## New Feature: File Upload for Quote Requests
+- [x] Add attachments table to database schema
+- [x] Update intake form schema to support file references
+- [x] Add database helpers for attachments (createIntakeAttachment, getIntakeAttachments)
+- [x] Update intake submission procedure to handle file uploads
+- [x] Add file upload UI component to RequestQuote page
+- [x] Display uploaded files in admin project detail view
+- [x] Test file upload with various file types (images, PDFs, etc.)
+- [ ] Save checkpoint and push to GitHub

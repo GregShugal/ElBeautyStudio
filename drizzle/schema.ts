@@ -158,6 +158,24 @@ export type Fulfillment = typeof fulfillments.$inferSelect;
 export type InsertFulfillment = typeof fulfillments.$inferInsert;
 
 /**
+ * File attachments for intake forms
+ * Stores references to files uploaded by clients (design files, reference images, etc.)
+ */
+export const intakeAttachments = mysqlTable("intake_attachments", {
+  id: int("id").autoincrement().primaryKey(),
+  intakeId: int("intake_id").notNull().references(() => intakeForms.id, { onDelete: "cascade" }),
+  fileUrl: text("file_url").notNull(),
+  fileKey: text("file_key").notNull(),
+  fileName: varchar("file_name", { length: 255 }).notNull(),
+  fileSize: int("file_size").notNull(), // in bytes
+  mimeType: varchar("mime_type", { length: 100 }),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export type IntakeAttachment = typeof intakeAttachments.$inferSelect;
+export type InsertIntakeAttachment = typeof intakeAttachments.$inferInsert;
+
+/**
  * Portfolio items - Showcase completed work
  */
 export const portfolioItems = mysqlTable("portfolioItems", {

@@ -8,7 +8,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
 import { trpc } from "@/lib/trpc";
 import { Link, useRoute } from "wouter";
-import { Loader2, ArrowLeft, Save } from "lucide-react";
+import { Loader2, ArrowLeft, Save, FileIcon } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 import { getLoginUrl } from "@/const";
@@ -25,6 +25,10 @@ export default function ProjectDetail() {
   const { data: intake } = trpc.intake.getByProjectId.useQuery(
     { projectId },
     { enabled: !!user && projectId > 0 }
+  );
+  const { data: attachments } = trpc.intake.getAttachments.useQuery(
+    { intakeId: intake?.id || 0 },
+    { enabled: !!user && !!intake?.id }
   );
   const { data: quotes } = trpc.quotes.getByProjectId.useQuery(
     { projectId },
@@ -214,6 +218,28 @@ export default function ProjectDetail() {
                       <div>
                         <Label>Special Requirements</Label>
                         <p className="mt-1 text-sm">{intake.specialRequirements}</p>
+                      </div>
+                    )}
+                    {attachments && attachments.length > 0 && (
+                      <div>
+                        <Label>Attached Files ({attachments.length})</Label>
+                        <div className="mt-2 space-y-2">
+                          {attachments.map((attachment) => (
+                            <a
+                              key={attachment.id}
+                              href={attachment.fileUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="flex items-center gap-2 p-3 bg-muted rounded-lg hover:bg-muted/80 transition-colors"
+                            >
+                              <FileIcon className="h-4 w-4 text-muted-foreground" />
+                              <span className="text-sm font-medium">{attachment.fileName}</span>
+                              <span className="text-xs text-muted-foreground ml-auto">
+                                {(attachment.fileSize / 1024 / 1024).toFixed(2)} MB
+                              </span>
+                            </a>
+                          ))}
+                        </div>
                       </div>
                     )}
                   </>

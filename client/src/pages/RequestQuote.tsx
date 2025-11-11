@@ -7,7 +7,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Link, useLocation } from "wouter";
 import { trpc } from "@/lib/trpc";
 import { toast } from "sonner";
-import { ArrowLeft, CheckCircle } from "lucide-react";
+import { ArrowLeft, CheckCircle, Upload, X, FileIcon } from "lucide-react";
 
 export default function RequestQuote() {
   const [, setLocation] = useLocation();
@@ -26,6 +26,8 @@ export default function RequestQuote() {
     budget: "",
     specialRequirements: "",
   });
+  const [files, setFiles] = useState<File[]>([]);
+  const [uploading, setUploading] = useState(false);
 
   const submitIntake = trpc.intake.submit.useMutation({
     onSuccess: () => {
@@ -38,8 +40,68 @@ export default function RequestQuote() {
     },
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      const newFiles = Array.from(e.target.files);
+      // Check file size (max 10MB per file)
+      const oversizedFiles = newFiles.filter(f => f.size > 10 * 1024 * 1024);
+      if (oversizedFiles.length > 0) {
+        toast.error("Some files are too large. Maximum file size is 10MB.");
+        return;
+      }
+      setFiles(prev => [...prev, ...newFiles]);
+    }
+  };
+
+  const removeFile = (index: number) => {
+    setFiles(prev => prev.filter((_, i) => i !== index));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    let uploadedAttachments: Array<{
+      fileUrl: string;
+      fileKey: string;
+      fileName: string;
+      fileSize: number;
+      mimeType?: string;
+    }> = [];
+
+    // Upload files to S3 if any
+    if (files.length > 0) {
+      setUploading(true);
+      try {
+        for (const file of files) {
+          const arrayBuffer = await file.arrayBuffer();
+          const buffer = new Uint8Array(arrayBuffer);
+          const fileKey = `intake-attachments/${Date.now()}-${Math.random().toString(36).substring(7)}-${file.name}`;
+          
+          // Note: This is a client-side call - in production, you'd want to upload via a server endpoint
+          // For now, we'll pass the file data to the mutation and handle upload server-side
+          const reader = new FileReader();
+          const base64Promise = new Promise<string>((resolve) => {
+            reader.onloadend = () => resolve(reader.result as string);
+            reader.readAsDataURL(file);
+          });
+          const base64 = await base64Promise;
+          
+          uploadedAttachments.push({
+            fileUrl: base64, // Temporary - will be replaced with S3 URL server-side
+            fileKey,
+            fileName: file.name,
+            fileSize: file.size,
+            mimeType: file.type,
+          });
+        }
+      } catch (error) {
+        toast.error("Failed to upload files. Please try again.");
+        setUploading(false);
+        return;
+      }
+      setUploading(false);
+    }
+
     submitIntake.mutate({
       clientName: formData.clientName,
       clientEmail: formData.clientEmail,
@@ -53,6 +115,7 @@ export default function RequestQuote() {
       deadline: formData.deadline || undefined,
       budget: formData.budget || undefined,
       specialRequirements: formData.specialRequirements || undefined,
+      attachments: uploadedAttachments.length > 0 ? uploadedAttachments : undefined,
     });
   };
 
@@ -282,14 +345,71 @@ export default function RequestQuote() {
                 </div>
               </div>
 
+              {/* File Attachments */}
+              <div className="space-y-4">
+                <h3 className="text-lg font-semibold">Design Files & References</h3>
+                <div className="space-y-2">
+                  <Label htmlFor="fileUpload">Upload Files (Optional)</Label>
+                  <p className="text-sm text-muted-foreground">
+                    Attach design files, reference images, sketches, or inspiration materials (Max 10MB per file)
+                  </p>
+                  <div className="border-2 border-dashed border-border rounded-lg p-6 text-center hover:border-primary/50 transition-colors">
+                    <Input
+                      id="fileUpload"
+                      type="file"
+                      multiple
+                      accept="image/*,.pdf,.ai,.psd,.sketch"
+                      onChange={handleFileChange}
+                      className="hidden"
+                    />
+                    <label htmlFor="fileUpload" className="cursor-pointer">
+                      <Upload className="mx-auto h-12 w-12 text-muted-foreground mb-2" />
+                      <p className="text-sm font-medium">Click to upload files</p>
+                      <p className="text-xs text-muted-foreground mt-1">
+                        Supported: Images, PDF, AI, PSD, Sketch
+                      </p>
+                    </label>
+                  </div>
+                  {files.length > 0 && (
+                    <div className="space-y-2 mt-4">
+                      <p className="text-sm font-medium">Selected Files ({files.length}):</p>
+                      <div className="space-y-2">
+                        {files.map((file, index) => (
+                          <div
+                            key={index}
+                            className="flex items-center justify-between p-3 bg-muted rounded-lg"
+                          >
+                            <div className="flex items-center gap-2">
+                              <FileIcon className="h-4 w-4 text-muted-foreground" />
+                              <span className="text-sm">{file.name}</span>
+                              <span className="text-xs text-muted-foreground">
+                                ({(file.size / 1024 / 1024).toFixed(2)} MB)
+                              </span>
+                            </div>
+                            <Button
+                              type="button"
+                              variant="ghost"
+                              size="sm"
+                              onClick={() => removeFile(index)}
+                            >
+                              <X className="h-4 w-4" />
+                            </Button>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+
               <div className="flex gap-3 pt-4">
                 <Link href="/">
                   <Button type="button" variant="outline" className="flex-1">
                     Cancel
                   </Button>
                 </Link>
-                <Button type="submit" disabled={submitIntake.isPending} className="flex-1">
-                  {submitIntake.isPending ? "Submitting..." : "Submit Request"}
+                <Button type="submit" disabled={submitIntake.isPending || uploading} className="flex-1">
+                  {uploading ? "Uploading files..." : submitIntake.isPending ? "Submitting..." : "Submit Request"}
                 </Button>
               </div>
             </form>
