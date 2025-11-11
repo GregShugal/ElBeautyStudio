@@ -81,4 +81,14 @@
 - [x] Add expertise/capabilities section
 - [x] Add About link to navigation menu
 - [x] Test page layout and responsiveness
+- [x] Save checkpoint and push to GitHub
+
+## Feature: Interactive Timeline on About Page
+- [x] Design timeline component with milestone cards
+- [x] Add visual connectors and date markers (vertical line with dots)
+- [x] Create placeholder milestone data (founding, expansion, team growth, recognition, present)
+- [x] Integrate timeline into About page between story and values sections
+- [x] Add responsive design for mobile timeline view (stacked layout)
+- [x] Add pulse animation to current milestone marker
+- [x] Test timeline on live site
 - [ ] Save checkpoint and push to GitHub

@@ -120,6 +120,110 @@ export default function About() {
           </div>
         </section>
 
+        {/* Timeline */}
+        <section className="mb-20">
+          <div className="max-w-4xl mx-auto">
+            <h2 className="text-3xl font-bold font-serif mb-12 text-center">Our Journey</h2>
+            <div className="relative">
+              {/* Timeline Line */}
+              <div className="absolute left-1/2 transform -translate-x-1/2 w-0.5 h-full bg-accent/30 hidden md:block" />
+              
+              {/* Timeline Items */}
+              <div className="space-y-12">
+                {/* Milestone 1 */}
+                <div className="relative flex flex-col md:flex-row items-center gap-8">
+                  <div className="flex-1 md:text-right">
+                    <div className="bg-card border rounded-lg p-6 shadow-sm">
+                      <div className="text-accent font-bold text-lg mb-2">[Year] - Founded</div>
+                      <h3 className="font-semibold text-xl mb-2">Studio 535 Begins</h3>
+                      <p className="text-muted-foreground text-sm">
+                        Started with a passion for custom engraving and a single laser cutter in a small workshop, 
+                        taking on personalized gifts and small-scale projects.
+                      </p>
+                    </div>
+                  </div>
+                  <div className="relative flex-shrink-0">
+                    <div className="w-4 h-4 rounded-full bg-accent border-4 border-background shadow-lg" />
+                  </div>
+                  <div className="flex-1 hidden md:block" />
+                </div>
+
+                {/* Milestone 2 */}
+                <div className="relative flex flex-col md:flex-row items-center gap-8">
+                  <div className="flex-1 hidden md:block" />
+                  <div className="relative flex-shrink-0">
+                    <div className="w-4 h-4 rounded-full bg-accent border-4 border-background shadow-lg" />
+                  </div>
+                  <div className="flex-1 md:text-left">
+                    <div className="bg-card border rounded-lg p-6 shadow-sm">
+                      <div className="text-accent font-bold text-lg mb-2">[Year] - Expansion</div>
+                      <h3 className="font-semibold text-xl mb-2">New Equipment & Capabilities</h3>
+                      <p className="text-muted-foreground text-sm">
+                        Invested in advanced CNC machines and expanded the workshop, enabling us to take on 
+                        larger custom fabrication projects and architectural installations.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Milestone 3 */}
+                <div className="relative flex flex-col md:flex-row items-center gap-8">
+                  <div className="flex-1 md:text-right">
+                    <div className="bg-card border rounded-lg p-6 shadow-sm">
+                      <div className="text-accent font-bold text-lg mb-2">[Year] - Team Growth</div>
+                      <h3 className="font-semibold text-xl mb-2">Building Our Expert Team</h3>
+                      <p className="text-muted-foreground text-sm">
+                        Brought together talented designers, craftspeople, and fabricators to form a dedicated 
+                        team committed to delivering exceptional custom work.
+                      </p>
+                    </div>
+                  </div>
+                  <div className="relative flex-shrink-0">
+                    <div className="w-4 h-4 rounded-full bg-accent border-4 border-background shadow-lg" />
+                  </div>
+                  <div className="flex-1 hidden md:block" />
+                </div>
+
+                {/* Milestone 4 */}
+                <div className="relative flex flex-col md:flex-row items-center gap-8">
+                  <div className="flex-1 hidden md:block" />
+                  <div className="relative flex-shrink-0">
+                    <div className="w-4 h-4 rounded-full bg-accent border-4 border-background shadow-lg" />
+                  </div>
+                  <div className="flex-1 md:text-left">
+                    <div className="bg-card border rounded-lg p-6 shadow-sm">
+                      <div className="text-accent font-bold text-lg mb-2">[Year] - Recognition</div>
+                      <h3 className="font-semibold text-xl mb-2">Award-Winning Craftsmanship</h3>
+                      <p className="text-muted-foreground text-sm">
+                        Recognized for excellence in custom fabrication and design, earning trust from both 
+                        individual clients and major commercial partners.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Milestone 5 - Present */}
+                <div className="relative flex flex-col md:flex-row items-center gap-8">
+                  <div className="flex-1 md:text-right">
+                    <div className="bg-accent/10 border-2 border-accent rounded-lg p-6 shadow-sm">
+                      <div className="text-accent font-bold text-lg mb-2">Today</div>
+                      <h3 className="font-semibold text-xl mb-2">Full-Service Studio</h3>
+                      <p className="text-muted-foreground text-sm">
+                        Operating a state-of-the-art facility with cutting-edge technology, serving a diverse 
+                        clientele with custom engraving, fabrication, and design services.
+                      </p>
+                    </div>
+                  </div>
+                  <div className="relative flex-shrink-0">
+                    <div className="w-6 h-6 rounded-full bg-accent border-4 border-background shadow-lg animate-pulse" />
+                  </div>
+                  <div className="flex-1 hidden md:block" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* Our Values */}
         <section className="mb-20 bg-muted/30 -mx-4 px-4 py-16">
           <div className="max-w-6xl mx-auto">
